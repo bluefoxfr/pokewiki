@@ -1,8 +1,7 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import { Header, Title, Input, PokemonsContainer, PokemonCard } from '../../styles/home/home.style';
+import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
+import { Header, Title, Input, PokemonsContainer, PokemonCard, Button, BottomContainer } from '../../styles/home/home.style';
 import axios from 'axios';
-import { IPokemon, Pokemons } from '../../type/pokemon/type';
-
+import { IPokemon } from '../../type/pokemon/type';
 
 const Home : FunctionComponent = () => {
   const [widthSize, setWidthSize] = useState<number>(200);
@@ -10,16 +9,20 @@ const Home : FunctionComponent = () => {
   const [pokemons, setPokemons] = useState<IPokemon[]>([]);
   const [offset, setOffset] = useState<number>(0);
   const widthProps = widthSize + 'px';
+  const goRequest = useRef(true);
 
   useEffect(() => {
+    if (goRequest.current) {
+      goRequest.current = false;
     const getPokemon = async() => {
       const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=20&offset=${offset}`);
-      res.data.results.forEach(async (pokemon: Pokemons) => {
-        const poke = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`);
+      for(let i = 0; i < 20; i++) {
+        const poke = await axios.get(`https://pokeapi.co/api/v2/pokemon/${res.data.results[i].name}`);
         setPokemons((p) => [...p, poke.data]);
-      })
+      }
     }
     getPokemon();
+  }
   }, [offset])
 
   const enlargeInput = (e: any) => {
@@ -36,16 +39,12 @@ const Home : FunctionComponent = () => {
     }
   }
 
-  const goPrevious = () => {
-    if (offset !== 0) {
-      setOffset(offset - 20);
-      
-    }
-  }
   const goNext = () => {
     if (offset !== 10000) {
       setOffset(offset + 20);
     }
+    goRequest.current = true;
+    console.log('Next page charged');
   }
 
   return (
@@ -55,8 +54,9 @@ const Home : FunctionComponent = () => {
       <PokemonsContainer>
         {pokemons.map((pokemon) => { return ( <PokemonCard key={pokemon.id} name={pokemon.name} sprite={pokemon.sprites.front_default} height={pokemon.height} weight={pokemon.weight} pokeTypes={pokemon.types} />)})}
       </PokemonsContainer>
-      <button type='submit' onClick={goPrevious}>Previous</button>
-      <button type='submit' onClick={goNext}>Next</button>
+      <BottomContainer>
+        <Button name={'buttonNext'} onPress={goNext}  value={'Next'}/>
+      </BottomContainer>
     </Header>
   );
 };

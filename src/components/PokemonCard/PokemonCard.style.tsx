@@ -12,6 +12,12 @@ export const CardContainer = styled.div`
   flex-wrap: wrap;
   width: 200px;
   height: 260px;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    margin-top: 10px;
+    transition: 0.2s;
+  }
 `;
 
 export const Sprite = styled.img``;
