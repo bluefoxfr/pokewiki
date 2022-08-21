@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useState } from 'react';
-import { PokemonDetailsModal } from '../PokemonDetailsModal';
-import { CardContainer, PokeName, Sprite, StatsContainer, SubStat, TypesContainer, TypePill } from './PokemonCard.style';
+import React, { FunctionComponent } from 'react';
+import { CardContainer, PokeName, Sprite, StatsContainer, SubStat, TypePill, TypesContainer } from './PokemonCard.style';
+import { useNavigate, useParams } from "react-router-dom";
 
 type pokeType = {
   type: {
@@ -17,10 +17,12 @@ type PokemonCardProps = {
 }
 
 export const PokemonCard : FunctionComponent<PokemonCardProps> = ({name, sprite, height, weight, pokeTypes, ...props}) => {
-  const [detailsModal, setDetailsModal] = useState<boolean>(false);
+  const router = useNavigate();
+  const goDetails = () => {
+    router("details?id=" + name);
+  }
   return (
-    <>
-    <CardContainer {...props} onClick={() => setDetailsModal(true)}>
+    <CardContainer {...props} onClick={goDetails}>
       <Sprite src={sprite} alt={name} />
       <PokeName>{name.charAt(0).toUpperCase() + name.slice(1)}</PokeName>
       <StatsContainer>
@@ -94,9 +96,5 @@ export const PokemonCard : FunctionComponent<PokemonCardProps> = ({name, sprite,
           return (<TypePill bgColor={colorType}>{pokeType.type.name.toUpperCase()}</TypePill>)})}
       </TypesContainer>
     </CardContainer>
-          {detailsModal ? 
-            <PokemonDetailsModal name={name} sprite={sprite} height={height} weight={weight} pokeTypes={pokeTypes} onClose={() => setDetailsModal(false)} />
-          : null}
-          </>
   );
 };

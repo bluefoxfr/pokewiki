@@ -64,18 +64,6 @@ const Home : FunctionComponent = () => {
     console.log('Next page charged');
   }
 
-  const viewDetails = (pokemon: IPokemon) => {
-    let ourPokeDetails: pokeDetails = {
-      name: pokemon.name,
-      sprite: pokemon.sprites.front_default,
-      height: pokemon.height,
-      weight: pokemon.weight,
-      pokeTypes: pokemon.types,
-    }
-    setPokeDetails(ourPokeDetails);
-    setDetailsModal(true);
-  }
-
   return (
     <Header>
       <Title>PokeWiki</Title>
