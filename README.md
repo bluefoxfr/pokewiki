@@ -8,8 +8,11 @@ https://pokeapi.co
 
 ## View
 
+### General page
 ![image](./demo.png)
 
+### Pokemon details page
+![image](./details.png)
 
 ## To test PokeWiki
 
