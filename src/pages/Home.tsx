@@ -1,8 +1,7 @@
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
-import { Header, Title, Input, PokemonsContainer, PokemonCard, Button, BottomContainer } from '../styles/home/home.style';
+import { Header, Title, Input, PokemonsContainer, PokemonCard, Button, BottomContainer } from '../styles/home.style';
 import axios from 'axios';
 import { IPokemon } from '../type/pokemon/type';
-import { PokemonDetailsModal } from '../components/PokemonDetailsModal';
 
 type pokeType = {
   type: {
@@ -23,8 +22,6 @@ const Home : FunctionComponent = () => {
   const [oldValue, setOldValue] = useState<number>(0);
   const [pokemons, setPokemons] = useState<IPokemon[]>([]);
   const [offset, setOffset] = useState<number>(0);
-  const [detailsModal, setDetailsModal] = useState<boolean>(false);
-  const [pokeDetails, setPokeDetails] = useState<pokeDetails>();
   const widthProps = widthSize + 'px';
   const goRequest = useRef(true);
 
@@ -74,9 +71,6 @@ const Home : FunctionComponent = () => {
       <BottomContainer>
         <Button name={'buttonNext'} onPress={goNext}  value={'Next'}/>
       </BottomContainer>
-      {detailsModal && pokeDetails ? 
-        <PokemonDetailsModal name={pokeDetails.name} sprite={pokeDetails.sprite} height={pokeDetails.height} weight={pokeDetails.weight} pokeTypes={pokeDetails.pokeTypes} onClose={() => setDetailsModal(false)} />
-    : null}
     </Header>
   );
 };

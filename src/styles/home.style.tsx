@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Input as _Input } from '../../components/Input';
-import { PokemonCard as _PokemonCard } from '../../components/PokemonCard';
-import { Button as _Button } from '../../components/Button';
+import { Input as _Input } from '../components/Input';
+import { PokemonCard as _PokemonCard } from '../components/PokemonCard';
+import { Button as _Button } from '../components/Button';
 
 export const Header = styled.div`
   display: flex;

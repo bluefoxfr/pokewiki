@@ -1,1 +1,1 @@
-export { PokemonDetailsModal } from './PokemonDetailsModal.component';
+export { PokemonDetails } from './PokemonDetailsModal.component';

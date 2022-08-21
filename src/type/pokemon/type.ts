@@ -17,4 +17,9 @@ export interface IPokemon {
       name: string;
     }
   }[]
+  abilities: {
+    ability: {
+      name: string;
+    }
+  }[]
 }

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PokemonDetailsModal } from '../components/PokemonDetailsModal';
+import { PokemonDetails } from '../components/PokemonDetailsModal';
+import { Content } from '../styles/details.style';
 import { IPokemon } from '../type/pokemon/type';
 
 const Details: FunctionComponent = () => {
@@ -28,9 +29,9 @@ const Details: FunctionComponent = () => {
     router("/");
   }
   return (
-    <>
-      {pokemon ? <PokemonDetailsModal name={pokemon.name} height={pokemon.height} weight={pokemon.weight} sprite={pokemon.sprites.front_default} pokeTypes={pokemon.types} onClose={back} /> : null}
-    </>
+    <Content>
+      {pokemon ? <PokemonDetails pokemon={pokemon} onClose={back} /> : null}
+    </Content>
   )
 }
 
