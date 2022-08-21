@@ -1,13 +1,30 @@
 import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
-import { Header, Title, Input, PokemonsContainer, PokemonCard, Button, BottomContainer } from '../../styles/home/home.style';
+import { Header, Title, Input, PokemonsContainer, PokemonCard, Button, BottomContainer } from '../styles/home/home.style';
 import axios from 'axios';
-import { IPokemon } from '../../type/pokemon/type';
+import { IPokemon } from '../type/pokemon/type';
+import { PokemonDetailsModal } from '../components/PokemonDetailsModal';
+
+type pokeType = {
+  type: {
+    name: string;
+  }
+}
+
+type pokeDetails = {
+  name: string;
+  sprite: string;
+  height: number;
+  weight: number;
+  pokeTypes: pokeType[];
+};
 
 const Home : FunctionComponent = () => {
   const [widthSize, setWidthSize] = useState<number>(200);
   const [oldValue, setOldValue] = useState<number>(0);
   const [pokemons, setPokemons] = useState<IPokemon[]>([]);
   const [offset, setOffset] = useState<number>(0);
+  const [detailsModal, setDetailsModal] = useState<boolean>(false);
+  const [pokeDetails, setPokeDetails] = useState<pokeDetails>();
   const widthProps = widthSize + 'px';
   const goRequest = useRef(true);
 
@@ -47,6 +64,18 @@ const Home : FunctionComponent = () => {
     console.log('Next page charged');
   }
 
+  const viewDetails = (pokemon: IPokemon) => {
+    let ourPokeDetails: pokeDetails = {
+      name: pokemon.name,
+      sprite: pokemon.sprites.front_default,
+      height: pokemon.height,
+      weight: pokemon.weight,
+      pokeTypes: pokemon.types,
+    }
+    setPokeDetails(ourPokeDetails);
+    setDetailsModal(true);
+  }
+
   return (
     <Header>
       <Title>PokeWiki</Title>
@@ -57,6 +86,9 @@ const Home : FunctionComponent = () => {
       <BottomContainer>
         <Button name={'buttonNext'} onPress={goNext}  value={'Next'}/>
       </BottomContainer>
+      {detailsModal && pokeDetails ? 
+        <PokemonDetailsModal name={pokeDetails.name} sprite={pokeDetails.sprite} height={pokeDetails.height} weight={pokeDetails.weight} pokeTypes={pokeDetails.pokeTypes} onClose={() => setDetailsModal(false)} />
+    : null}
     </Header>
   );
 };

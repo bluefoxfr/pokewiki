@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
+import { PokemonDetailsModal } from '../PokemonDetailsModal';
 import { CardContainer, PokeName, Sprite, StatsContainer, SubStat, TypesContainer, TypePill } from './PokemonCard.style';
 
 type pokeType = {
@@ -16,10 +17,10 @@ type PokemonCardProps = {
 }
 
 export const PokemonCard : FunctionComponent<PokemonCardProps> = ({name, sprite, height, weight, pokeTypes, ...props}) => {
-  
-
+  const [detailsModal, setDetailsModal] = useState<boolean>(false);
   return (
-    <CardContainer {...props}>
+    <>
+    <CardContainer {...props} onClick={() => setDetailsModal(true)}>
       <Sprite src={sprite} alt={name} />
       <PokeName>{name.charAt(0).toUpperCase() + name.slice(1)}</PokeName>
       <StatsContainer>
@@ -93,5 +94,9 @@ export const PokemonCard : FunctionComponent<PokemonCardProps> = ({name, sprite,
           return (<TypePill bgColor={colorType}>{pokeType.type.name.toUpperCase()}</TypePill>)})}
       </TypesContainer>
     </CardContainer>
+          {detailsModal ? 
+            <PokemonDetailsModal name={name} sprite={sprite} height={height} weight={weight} pokeTypes={pokeTypes} onClose={() => setDetailsModal(false)} />
+          : null}
+          </>
   );
 };
